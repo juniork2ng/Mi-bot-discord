@@ -1,0 +1,38 @@
+import discord
+import random
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
+
+# Respuestas de la "novia virtual"
+responses = {
+    "hola": ["¡Hola! ¿Cómo estás?", "¡Hola, amor! ¿Qué tal tu día?", "¡Hola! ¿Cómo va todo?"],
+    "cómo estás": ["Estoy bien, ¿y tú?", "Me siento genial, ¿y tú?", "Todo bien, gracias por preguntar."],
+    "te amo": ["Yo también te amo, cariño.", "¡Te quiero mucho!", "¡Te adoro!"],
+    "adiós": ["¡Hasta luego!", "Nos vemos pronto.", "Adiós, cariño. ¡Te quiero!"]
+}
+
+@client.event
+async def on_ready():
+    print(f'Bot conectado como {client.user}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    msg = message.content.lower()
+
+    if msg in responses:
+        response = random.choice(responses[msg])
+        await message.channel.send(response)
+
+    elif "cómo te llamas" in msg:
+        await message.channel.send("Me llamo lisa, soy tu novia virtual. 😊")
+
+    # Agregar más interacciones personalizadas aquí
+
+# Reemplaza con tu token
+client.run('cadc67dda84eb54fcfc6114190312d1bcbd0519f55b8bb7e804b2df51c41e762')
